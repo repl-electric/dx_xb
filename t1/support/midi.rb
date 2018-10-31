@@ -82,3 +82,72 @@ def zero_cc(cc)
     end
   end
 end
+
+def arp(*args)
+  channel = 7
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi n,vel, *(args << {channel: channel})
+  end
+end
+def arp_on(*args)
+  channel = 7
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi_note_on n,vel, *(args << {channel: channel})
+  end
+end
+def arp_x(*args)
+  channel = 7
+  midi_all_notes_off *(args << {channel: channel})
+end
+
+
+def creature(*args)
+  channel = 10
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi n,vel, *(args << {channel: channel})
+    creature_cc opts
+  end
+end
+def creature_on(*args)
+  channel = 10
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi_note_on n,vel, *(args << {channel: channel})
+    creature_cc opts
+  end
+end
+def creature_x(*args)
+  channel = 10
+  midi_all_notes_off *(args << {channel: channel})
+end
+
+def creature_cc(cc)
+    channel = 10
+  cc.keys.each do |k|
+    n = case k
+        when :dirt; 51
+        when :filter; 52
+        when :talk; 53
+        when :ryth; 54
+        else
+          nil
+        end
+    if n == 49
+      midi_pitch_bend cc[k], channel: channel
+    elsif n
+      midi_cc n, cc[k]*127.0, port: :iac_bus_1, channel: channel
+    end
+  end
+
+end
