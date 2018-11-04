@@ -1,5 +1,6 @@
 # dx_xb
 
-## Soundtrack
+A soundtrack created through writing code live.
+Performance source is a variant of Ruby and Sonic Pi.
 
-## Ruby Performance source
+Copyright © 2018-present Joseph Wilk
