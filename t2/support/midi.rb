@@ -149,5 +149,24 @@ def creature_cc(cc)
       midi_cc n, cc[k]*127.0, port: :iac_bus_1, channel: channel
     end
   end
+end
 
+def shudder_fx(*args)
+  channel = 16
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi n,vel, *(args << {channel: channel})
+  end
+end
+
+def bows(*args)
+  channel = 9
+  params, opts = split_params_and_merge_opts_array(args)
+  opts         = current_midi_defaults.merge(opts)
+  n, vel = *params
+  if n
+    midi n,vel, *(args << {channel: channel})
+  end
 end
